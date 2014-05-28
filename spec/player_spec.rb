@@ -1,11 +1,11 @@
-require "spec_helper"
+require 'spec_helper'
 require 'yaml'
 
 describe H3m::Player do
 
-  @fixtures = YAML.load_file("spec/resources.yml")
+  @fixtures = YAML.load_file('spec/resources.yml')
   @files = @fixtures.map do |p|
-    {path: "spec/resources/#{p["file"]}", params: p }
+    {path: "spec/resources/#{p['file']}", params: p }
   end
 
   @files.each do |file|
@@ -18,23 +18,23 @@ describe H3m::Player do
         @computer_players = @map.players.select {|p| p.computer? }
       end
 
-      it "should determine player presence" do
+      it 'should determine player presence' do
         @players.each_with_index do |p, i|
-          p.present?.should == file[:params]["players"][i]["present"]
+          p.present?.should == file[:params]['players'][i]['present']
         end
       end
 
-      it "should determine player availability to human and computer" do
+      it 'should determine player availability to human and computer' do
         @players.each_with_index do |p, i|
-          p.human?.should    == (file[:params]["players"][i]["human"] || false)
-          p.computer?.should == (file[:params]["players"][i]["computer"] || false)
+          p.human?.should    == (file[:params]['players'][i]['human'] || false)
+          p.computer?.should == (file[:params]['players'][i]['computer'] || false)
         end
       end
       
-      it "should determine computer behaviour" do
+      it 'should determine computer behaviour' do
         @players.each_with_index do |p, i|
-          if file[:params]["players"][i]["computer_behaviour"]
-            p.computer_behaviour.should == file[:params]["players"][i]["computer_behaviour"].to_sym
+          if file[:params]['players'][i]['computer_behaviour']
+            p.ai_tactic.should == file[:params]['players'][i]['computer_behaviour'].to_sym
           end
         end
       end

@@ -25,4 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-expectations", ">= 2.0.0"
 
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "colorize"
+
 end

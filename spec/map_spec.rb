@@ -1,10 +1,10 @@
-require "spec_helper"
+require 'spec_helper'
 require 'yaml'
 
 describe H3m::Map do
 
   before :all do
-    @fixtures = YAML.load_file("spec/resources.yml")
+    @fixtures = YAML.load_file('spec/resources.yml')
     @files = @fixtures.map do |p|
       {path: "spec/resources/#{p["file"]}", params: p }
     end
@@ -15,13 +15,13 @@ describe H3m::Map do
     # map name and descriptions
     content = "\xFF" * 10240
     content[10...18] = "\x00" * 8
-    @badfile = StringIO.new(content, "rb")
+    @badfile = StringIO.new(content, 'rb')
   end
 
-  it "should return correct version" do
+  it 'should return correct version' do
     @files.each do |file|
       map = H3m::Map.new(file[:path])
-      map.version.should == file[:params]["version"].to_sym
+      map.version.should == file[:params]['version'].to_sym
     end
 
     expect {
@@ -30,10 +30,10 @@ describe H3m::Map do
     }.to raise_error(H3m::MapError)
   end
 
-  it "should return correct size" do
+  it 'should return correct size' do
     @files.each do |file|
       map = H3m::Map.new(file[:path])
-      map.size.should == file[:params]["size"].to_sym
+      map.size.should == file[:params]['size'].to_sym
     end
 
     expect {
@@ -42,11 +42,11 @@ describe H3m::Map do
     }.to raise_error(H3m::MapError)
   end
 
-  it "should return correct name and description" do
+  it 'should return correct name and description' do
     @files.each do |file|
       map = H3m::Map.new(file[:path])
-      map.name.should == file[:params]["name"]
-      map.description.should == file[:params]["description"]
+      map.name.should == file[:params]['name']
+      map.description.should == file[:params]['description']
     end
 
     expect {
@@ -55,10 +55,10 @@ describe H3m::Map do
     }.to raise_error(H3m::MapError)
   end
 
-  it "should correctly determine subterranean presence" do
+  it 'should correctly determine subterranean presence' do
     @files.each do |file|
       map = H3m::Map.new(file[:path])
-      map.has_subterranean?.should == file[:params]["has_subterranean"]
+      map.has_subterranean?.should == file[:params]['has_subterranean']
     end
 
     expect {
@@ -67,10 +67,10 @@ describe H3m::Map do
     }.to raise_error(H3m::MapError)
   end
 
-  it "should correctly determine map difficulty" do
+  it 'should correctly determine map difficulty' do
     @files.each do |file|
       map = H3m::Map.new(file[:path])
-      map.difficulty.should == file[:params]["difficulty"].to_sym
+      map.difficulty.should == file[:params]['difficulty'].to_sym
     end
 
     expect {
@@ -79,9 +79,22 @@ describe H3m::Map do
     }.to raise_error(H3m::MapError)
   end
 
-  it "should return 8 player instances" do
+  it 'should return 8 player instances' do
+
     @files.each do |file|
       map = H3m::Map.new(file[:path])
+
+      # p '================================='
+      # p map.version
+      # map.print_map
+      # i = 1
+      # map.players.each do |player|
+      #   # p "------------------------ #{i}"
+      #   # i = i +1
+      #   # p player
+      #   # p map.max_level if map.max_level
+      # end
+
       map.players.size.should == 8
       map.players.each do |player|
         player.should be_an_instance_of(H3m::Player)

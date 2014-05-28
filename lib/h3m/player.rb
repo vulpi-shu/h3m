@@ -7,8 +7,7 @@ module H3m
     # Player representation
 
     COLORS = [:red, :blue, :tan, :green, :orange, :purple, :teal, :pink]
-    TOWNS  = [:castle, :rampart, :tower, :inferno, :necropolis,
-              :dunegon, :stronghold, :fortress, :conflux]
+    TOWNS  = [:castle, :rampart, :tower, :inferno, :necropolis, :dunegon, :stronghold, :fortress, :conflux]
 
     attr_reader :record
     attr_reader :number
@@ -41,19 +40,15 @@ module H3m
       human? || computer?
     end
 
-    def max_level
-      record.max_level
-    end
-
-    def computer_behaviour
-      @computer_behaviour ||= case record.computer_behaviour
+    def ai_tactic
+      @ai_tactic ||= case record.info.ai_tactic
         when 0 then :random
         when 1 then :warrior
         when 2 then :builder
         when 3 then :explorer
         else
           raise PlayerException.new("unknown computer behaviour %X" %
-                                    record.computer_behaviour)
+                                        record.info.ai_tactic)
       end
     end
   end
